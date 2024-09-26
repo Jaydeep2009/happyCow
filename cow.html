@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cow Health Monitor (Simulated)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom animation for smooth value updates */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+
+    <div class="container mx-auto px-4">
+        <div class="max-w-lg mx-auto bg-white rounded-xl shadow-md p-8">
+            <h1 class="text-2xl leading-tight font-bold text-gray-900 text-center">Cow Health Monitor (Simulated)</h1>
+            <p class="mt-2 text-gray-600 text-center">Simulating cow's temperature in real-time.</p>
+
+            <div class="mt-5 grid grid-cols-2 gap-4">
+                <div class="text-center bg-blue-50 p-5 rounded-lg">
+                    <div class="text-lg text-gray-500">Heart Rate</div>
+                    <div class="text-4xl font-bold text-blue-600 fade-in" id="heartRate">0</div>
+                    <div class="text-sm text-gray-400">Beats per minute</div>
+                </div>
+
+                <div class="text-center bg-blue-50 p-5 rounded-lg">
+                    <div class="text-lg text-gray-500">Temperature</div>
+                    <div class="text-4xl font-bold text-blue-600 fade-in" id="temperature">--</div>
+                    <div class="text-sm text-gray-400">Degrees Celsius</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTemperature = 22.5; // Start from an initial room temperature value
+
+        // Function to subtly generate new temperature values
+        function generateRandomTemperature() {
+            const randomChange = (Math.random() * 0.2 - 0.1).toFixed(2); // Small change between -0.1°C and 0.1°C
+            currentTemperature = (parseFloat(currentTemperature) + parseFloat(randomChange)).toFixed(1);
+
+            updateValues(currentTemperature);
+        }
+
+        // Update the temperature on the page
+        function updateValues(temperature) {
+            const temperatureElement = document.getElementById('temperature');
+
+            temperatureElement.textContent = temperature;
+
+            // Add smooth fade-in animation for value updates
+            temperatureElement.classList.add('fade-in');
+
+            setTimeout(() => {
+                temperatureElement.classList.remove('fade-in');
+            }, 500);
+        }
+
+        // Automatically generate and update temperature every 5 seconds (5000 ms)
+        setInterval(generateRandomTemperature, 5000);
+
+        // Call generateRandomTemperature initially to load values as soon as the page loads
+        generateRandomTemperature();
+    </script>
+
+</body>
+</html>
